@@ -22,7 +22,10 @@ function Chat() {
 
         client.subscribe("/topic/messages", (msg) => {
           const data = JSON.parse(msg.body);
-          setMessages((prev) => [...prev, data]);
+          setMessages((prev) => [
+            ...prev,
+            { ...data, receivedAt: Date.now() },
+          ]);
         });
       },
 
@@ -60,34 +63,28 @@ function Chat() {
   };
 
   return (
-    <div className="chat-box">
-      <div className="chat-toolbar">
-        <span
-          className={`status ${connected ? "status--ok" : "status--pending"}`}
-          title={
-            connected
-              ? "Connected to ws://localhost:8080/ws"
-              : "Waiting for server…"
-          }
-        >
-          <span className="status-dot" aria-hidden />
-          {connected ? "Live" : "Connecting"}
-        </span>
-      </div>
+    <div className="chat-shell">
+      <header className="chat-topbar">
+        <div className="chat-topbar-info">
+          <h1 className="chat-title">Group chat</h1>
+        </div>
+      </header>
 
-      <MessageList messages={messages} />
+      <MessageList messages={messages} selfName={username} />
 
-      <div className="chat-composer">
-        <input
-          className="username"
-          placeholder="Your name"
-          value={username}
-          onChange={(e) => setUsername(e.target.value)}
-          autoComplete="nickname"
-          aria-label="Your name"
-        />
-        <MessageInput sendMessage={sendMessage} disabled={!connected} />
-      </div>
+      <footer className="chat-footer">
+        <div className="chat-composer">
+          <input
+            className="username"
+            placeholder="Your display name"
+            value={username}
+            onChange={(e) => setUsername(e.target.value)}
+            autoComplete="nickname"
+            aria-label="Your display name"
+          />
+          <MessageInput sendMessage={sendMessage} disabled={!connected} />
+        </div>
+      </footer>
     </div>
   );
 }

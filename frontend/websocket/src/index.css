@@ -24,15 +24,16 @@ body {
   margin: 0;
   min-width: 320px;
   min-height: 100vh;
-  background-color: #f8fafc;
+  background: linear-gradient(160deg, #fce4ec 0%, #f8bbd0 42%, #ffebee 100%);
 }
 
 #root {
   min-height: 100vh;
   display: flex;
-  align-items: flex-start;
+  align-items: center;
   justify-content: center;
-  padding: 1rem 0;
+  padding: 0.75rem;
+  box-sizing: border-box;
 }
 
 h1 {
